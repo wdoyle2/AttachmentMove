@@ -18,7 +18,7 @@
             float: right;
         }
 
-        body {
+        html, body {
             background: transparent;
         }
     </style>
@@ -82,7 +82,7 @@
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
 <script>
-    $(document).ready(() => {
+    $(document).ready(function () {
         let objData = {
             objectName: '',
             boneName: '',
@@ -130,34 +130,35 @@
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
                 },
-                body: null)
-        }).then(resp => resp.json()).then(resp => console.log(resp));
+                body: ''
+            }).then(resp => resp.json()).then(resp => console.log(resp));
+        });
+
+        $(".button.save").on("click", () => {
+            var node = document.createElement('textarea');
+            var selection = document.getSelection();
+
+            objData.objectName = $("#objectName").val();
+            objData.boneName = $("#Bone").val();
+            objData.pos.x = $("#posX").val();
+            objData.pos.y = $("#posY").val();
+            objData.pos.z = $("#posZ").val();
+            objData.rot.x = $("#rotX").val();
+            objData.rot.y = $("#rotY").val();
+            objData.rot.z = $("#rotZ").val();
+
+            node.textContent = JSON.stringify(objData);
+            document.body.appendChild(node);
+
+            selection.removeAllRanges();
+            node.select();
+            document.execCommand('copy');
+
+            selection.removeAllRanges();
+            document.body.removeChild(node);
+        });
+
     });
-
-    $(".button.save").on("click", () => {
-        var node = document.createElement('textarea');
-        var selection = document.getSelection();
-
-        objData.objectName = $("#objectName").val();
-        objData.boneName = $("#Bone").val();
-        objData.pos.x = $("#posX").val();
-        objData.pos.y = $("#posY").val();
-        objData.pos.z = $("#posZ").val();
-        objData.rot.x = $("#rotX").val();
-        objData.rot.y = $("#rotY").val();
-        objData.rot.z = $("#rotZ").val();
-
-        node.textContent = JSON.stringify(objData);
-        document.body.appendChild(node);
-
-        selection.removeAllRanges();
-        node.select();
-        document.execCommand('copy');
-
-        selection.removeAllRanges();
-        document.body.removeChild(node);
-    })
-    })
 </script>
 </body>
 </html>
